@@ -1,3 +1,0 @@
-INDEX VERSION 1.127+/home/austin/Documents/oop/.metadata/.plugins/org.eclipse.jdt.core
-997319842.index
-269740468.index
