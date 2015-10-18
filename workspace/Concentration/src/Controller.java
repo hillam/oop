@@ -7,5 +7,8 @@ public class Controller implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		// handle events
+		
+		// TODO: remove this.. it's just test code rn
+		Model.getInstance().player1Score();
 	}
 }
