@@ -1,6 +1,8 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+
 public class Controller implements ActionListener
 {
 	@Override
@@ -8,7 +10,7 @@ public class Controller implements ActionListener
 	{
 		// handle events
 		
-		// TODO: remove this.. it's just test code rn
-		Model.getInstance().player1Score();
+		int index = Integer.parseInt(((JButton)e.getSource()).getName());
+		Model.getInstance().toggleSelected(index);
 	}
 }

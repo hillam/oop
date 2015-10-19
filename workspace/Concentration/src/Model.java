@@ -32,7 +32,8 @@ public class Model extends Observable{
 	
 	private void newSquares(){	
 		m_squares.clear();
-		for(int i = 0; i < NUM_SQUARES; i++){
+		for(int i = 0; i < NUM_SQUARES/2; i++){
+			m_squares.add(new Square(i));
 			m_squares.add(new Square(i));
 		}
 		Collections.shuffle(m_squares);
@@ -54,6 +55,28 @@ public class Model extends Observable{
 	public void player2Score(){
 		m_player2.score();
 		changed();
+	}
+	
+	public void select(int index){
+		m_squares.get(index).select();
+		changed();
+	}
+
+	public void deselect(int index){
+		m_squares.get(index).deselect();
+		changed();
+	}
+	
+	public boolean isSelected(int index) {
+		return m_squares.get(index).isSelected();
+	}
+
+	public void toggleSelected(int index) {
+		if(isSelected(index))
+			deselect(index);
+		else
+			select(index);
+		// called methods call changed()
 	}
 	
 	public void changed(){
