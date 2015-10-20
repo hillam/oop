@@ -21,13 +21,15 @@ public class Model extends Observable{
 	private Model(){
 		m_player1 = new Player();
 		m_player2 = new Player();
+		m_player1.toggleTurn();
 		m_squares = new ArrayList<Square>();
 		newSquares();
 	}
 	
 	public void reset(){
-		m_player1.reset();
-		m_player2.reset();
+		m_player1 = new Player();
+		m_player2 = new Player();
+		m_player1.toggleTurn();
 		newSquares();
 		changed();
 	}
@@ -59,6 +61,15 @@ public class Model extends Observable{
 		changed();
 	}
 	
+	public boolean isPlayerTurn(){
+		return m_player1.isTurn();
+	}
+	
+	public void switchTurns(){
+		m_player1.toggleTurn();
+		m_player2.toggleTurn();
+	}
+	
 	public void select(int index){
 		if(!isSelected(index)){
 			m_selected++;
@@ -80,6 +91,25 @@ public class Model extends Observable{
 	
 	public boolean isSelected(int index) {
 		return m_squares.get(index).isSelected();
+	}
+	
+	public boolean isMatch(int index1, int index2){
+		return m_squares.get(index1).isMatching(m_squares.get(index2));
+	}
+	
+	// Squares are only found 2 at once.. because they're matching
+	public void find(int index1, int index2){
+		m_squares.get(index1).find();
+		m_squares.get(index2).find();
+		changed();
+	}
+	
+	public boolean isFound(int index){
+		return m_squares.get(index).isFound();
+	}
+	
+	public String getImage(int index){
+		return m_squares.get(index).getImage();
 	}
 	
 	public void changed(){
