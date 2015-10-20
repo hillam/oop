@@ -17,3 +17,6 @@
 * 	int m_col
 * 	no border by default
 *	border & image (image is set by SquareView)
+
+###	IStrategy
+* 	makeMove()
