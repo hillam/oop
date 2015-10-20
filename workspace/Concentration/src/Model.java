@@ -14,6 +14,8 @@ public class Model extends Observable{
 	private Player m_player1;
 	private Player m_player2;
 	private List<Square> m_squares;
+	private int m_selected = 0;
+	
 	public static final int NUM_SQUARES = 24;
 	
 	private Model(){
@@ -58,25 +60,26 @@ public class Model extends Observable{
 	}
 	
 	public void select(int index){
-		m_squares.get(index).select();
+		if(!isSelected(index)){
+			m_selected++;
+			m_squares.get(index).select();
+		}
 		changed();
 	}
-
-	public void deselect(int index){
-		m_squares.get(index).deselect();
+	
+	public int numSelected(){
+		return m_selected;
+	}
+	
+	public void clearSelected(){
+		m_selected = 0;
+		for(Square s : m_squares)
+			s.deselect();
 		changed();
 	}
 	
 	public boolean isSelected(int index) {
 		return m_squares.get(index).isSelected();
-	}
-
-	public void toggleSelected(int index) {
-		if(isSelected(index))
-			deselect(index);
-		else
-			select(index);
-		// called methods call changed()
 	}
 	
 	public void changed(){
