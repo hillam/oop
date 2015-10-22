@@ -108,8 +108,24 @@ public class Model extends Observable{
 		return m_squares.get(index).isFound();
 	}
 	
+	public boolean isSelectedOrFound(int index){
+		return m_squares.get(index).isSelected() || m_squares.get(index).isFound();
+	}
+	
 	public String getImage(int index){
 		return m_squares.get(index).getImage();
+	}
+	
+	public static boolean checkMatch(int index){
+		Model MODEL = Model.getInstance();
+		for(int i = 0; i < Model.NUM_SQUARES; i++){
+			if(MODEL.isSelected(i) && MODEL.isMatch(index, i) && 
+					i != index){
+				MODEL.find(index, i);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void changed(){

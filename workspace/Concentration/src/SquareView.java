@@ -22,6 +22,8 @@ public class SquareView extends JPanel implements Observer{
 	private Timer m_timer;
 	private final Model MODEL = Model.getInstance();
 	
+	private IStrategy m_opponent = new EasyPlayer();
+	
 	public SquareView(){
 		setLayout(new GridLayout(4,6));
 		
@@ -38,8 +40,11 @@ public class SquareView extends JPanel implements Observer{
             	MODEL.clearSelected();
             	for(FancyButton c : m_cards)
             		clearBorder(c);
-            	//MODEL.switchTurns();
-            	m_timer.stop();
+            	MODEL.switchTurns();
+            	if(MODEL.isPlayerTurn())
+            		m_timer.stop();
+            	else
+            		m_opponent.doMove();
             }
         });
 	}
@@ -64,21 +69,12 @@ public class SquareView extends JPanel implements Observer{
 					if(MODEL.numSelected() < 2)
 						MODEL.select(i);
 					if(MODEL.numSelected() == 2){
-						checkMatch(i);
+						if(Model.checkMatch(i))
+							MODEL.player1Score();
 						m_timer.start();
 					}
 					break;
 					/*-----------------------------------------------*/
-				}
-			}
-		}
-		
-		public void checkMatch(int index){
-			for(int i = 0; i < m_cards.size(); i++){
-				if(MODEL.isSelected(i) && MODEL.isMatch(index, i) && 
-						i != index){
-					MODEL.find(index, i);
-					MODEL.player1Score();
 				}
 			}
 		}
@@ -89,7 +85,7 @@ public class SquareView extends JPanel implements Observer{
 		for(int i = 0; i < m_cards.size(); i++){
 			if(MODEL.isSelected(i))
 				addBorder(m_cards.get(i));
-			if(MODEL.isFound(i) || MODEL.isSelected(i))
+			if(MODEL.isSelectedOrFound(i))
 				m_cards.get(i).setIcon(new ImageIcon(MODEL.getImage(i)));
 			else{
 				clearBorder(m_cards.get(i));
