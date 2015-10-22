@@ -16,7 +16,6 @@ public class EasyPlayer implements IStrategy {
 		MODEL.select(choice2);
 		
 		if(Model.checkMatch(choice1)){
-			MODEL.find(choice1, choice2);
 			MODEL.player2Score();
 		}
 	}

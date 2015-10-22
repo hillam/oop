@@ -17,6 +17,10 @@ public class Square {
 		m_id = id;
 	}
 	
+	public int getId(){
+		return m_id;
+	}
+	
 	public boolean isMatching(Square other){
 		return other.m_id == m_id;
 	}

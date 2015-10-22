@@ -22,7 +22,7 @@ public class SquareView extends JPanel implements Observer{
 	private Timer m_timer;
 	private final Model MODEL = Model.getInstance();
 	
-	private IStrategy m_opponent = new EasyPlayer();
+	private IStrategy m_opponent = new HardPlayer();
 	
 	public SquareView(){
 		setLayout(new GridLayout(4,6));

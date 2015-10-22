@@ -128,6 +128,10 @@ public class Model extends Observable{
 		return false;
 	}
 	
+	public int idOf(int index){
+		return m_squares.get(index).getId();
+	}
+	
 	public void changed(){
 		setChanged();
 		notifyObservers();
