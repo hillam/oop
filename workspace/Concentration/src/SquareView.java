@@ -25,6 +25,7 @@ public class SquareView extends JPanel implements Observer{
 	private IStrategy m_opponent = new HardPlayer();
 	
 	public SquareView(){
+		setBackground(Color.GRAY);  
 		setLayout(new GridLayout(4,6));
 		
 		for(int i=0; i<Model.NUM_SQUARES; i++){
@@ -38,6 +39,7 @@ public class SquareView extends JPanel implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
             	MODEL.clearSelected();
+            	setBackground(Color.GRAY);  
             	for(FancyButton c : m_cards)
             		clearBorder(c);
             	MODEL.switchTurns();
@@ -52,6 +54,8 @@ public class SquareView extends JPanel implements Observer{
 	private class FancyButton extends JButton{
 		public FancyButton(){
 			addActionListener(m_controller);
+			setOpaque(false);
+			setContentAreaFilled(false);
 			clearBorder(this);
 			setIcon(new ImageIcon("cardback.jpg"));
 		}
@@ -71,6 +75,7 @@ public class SquareView extends JPanel implements Observer{
 					if(MODEL.numSelected() == 2){
 						if(Model.checkMatch(i))
 							MODEL.player1Score();
+						black();
 						m_timer.start();
 					}
 					break;
@@ -78,6 +83,10 @@ public class SquareView extends JPanel implements Observer{
 				}
 			}
 		}
+	}
+	
+	public void black(){
+		setBackground(Color.BLACK); 
 	}
 	
 	@Override
