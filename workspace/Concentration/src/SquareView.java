@@ -12,6 +12,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -22,7 +24,7 @@ public class SquareView extends JPanel implements Observer{
 	private Timer m_timer;
 	private final Model MODEL = Model.getInstance();
 	
-	private IStrategy m_opponent = new HardPlayer();
+	private IStrategy m_opponent;
 	
 	public SquareView(){
 		setBackground(Color.GRAY);  
@@ -39,16 +41,50 @@ public class SquareView extends JPanel implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
             	MODEL.clearSelected();
-            	setBackground(Color.GRAY);  
+            	setBackground(Color.GRAY);
             	for(FancyButton c : m_cards)
             		clearBorder(c);
             	MODEL.switchTurns();
+            	
+            	boolean gameover = true;
+            	for(int i = 0; i < Model.NUM_SQUARES; i++){
+            		if(!MODEL.isFound(i)){
+            			gameover = false;
+            			break;
+            		}
+            	}
+            	if(gameover)
+            		showPlayAgain();
+            	
             	if(MODEL.isPlayerTurn())
             		m_timer.stop();
             	else
             		m_opponent.doMove();
             }
         });
+	}
+	
+	public void selectDifficulty(){
+		String[] strategies = {"Easy", "Medium", "Hard"};
+	    String selection = (String) JOptionPane.showInputDialog(this, "Select an opponent strategy.",
+	        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, 
+	        strategies, 
+	        strategies[0]); 
+	    m_opponent = StrategyBuilder.buildStrategy(selection);
+	}
+	
+	public void showPlayAgain(){
+		JDialog.setDefaultLookAndFeelDecorated(true);
+	    int response = JOptionPane.showConfirmDialog(this, "Play again?", 
+	    		"Confirm",
+	    		JOptionPane.YES_NO_OPTION, 
+	    		JOptionPane.QUESTION_MESSAGE);
+	    if(response == JOptionPane.YES_OPTION){
+	    	MODEL.reset();
+	    	selectDifficulty();
+	    }
+	    else
+	    	System.exit(0);
 	}
 	
 	private class FancyButton extends JButton{

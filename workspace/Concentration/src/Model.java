@@ -23,24 +23,23 @@ public class Model extends Observable{
 		m_player2 = new Player();
 		m_player1.toggleTurn();
 		m_squares = new ArrayList<Square>();
-		newSquares();
-	}
-	
-	public void reset(){
-		m_player1 = new Player();
-		m_player2 = new Player();
-		m_player1.toggleTurn();
-		newSquares();
-		changed();
-	}
-	
-	private void newSquares(){	
-		m_squares.clear();
+
 		for(int i = 0; i < NUM_SQUARES/2; i++){
 			m_squares.add(new Square(i));
 			m_squares.add(new Square(i));
 		}
 		Collections.shuffle(m_squares);
+	}
+	
+	public void reset(){
+		m_player1.reset();
+		m_player2.reset();
+		if(!isPlayerTurn())
+			switchTurns();
+		for(Square square : m_squares)
+			square.reset();
+		Collections.shuffle(m_squares);
+		changed();
 	}
 	
 	public int getPlayer1Score() {

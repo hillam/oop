@@ -10,7 +10,6 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
-		// TODO: Add views
 		JPanel footerView = new FooterView();
 		JPanel squareView = new SquareView();
 		
@@ -19,9 +18,10 @@ public class MainFrame extends JFrame {
 		
 		setSize(800, 800);
 		setVisible(true);
-		
-		// TODO: Add Observers to the model
+
 		Model.getInstance().addObserver((Observer) squareView);
 		Model.getInstance().addObserver((Observer) footerView);
+		
+		((SquareView) squareView).selectDifficulty();
 	}
 }

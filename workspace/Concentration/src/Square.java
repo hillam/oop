@@ -48,4 +48,9 @@ public class Square {
 	public String getImage(){
 		return IMAGES[m_id];
 	}
+
+	public void reset(){
+		m_selected = false;
+		m_found = false;
+	}
 }
