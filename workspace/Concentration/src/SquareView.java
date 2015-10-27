@@ -41,7 +41,6 @@ public class SquareView extends JPanel implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
             	MODEL.clearSelected();
-            	setBackground(Color.GRAY);
             	for(FancyButton c : m_cards)
             		clearBorder(c);
             	MODEL.switchTurns();
@@ -56,8 +55,10 @@ public class SquareView extends JPanel implements Observer{
             	if(gameover)
             		showPlayAgain();
             	
-            	if(MODEL.isPlayerTurn())
+            	if(MODEL.isPlayerTurn()){
             		m_timer.stop();
+            		setBackground(Color.GRAY);
+            	}
             	else
             		m_opponent.doMove();
             }
@@ -70,7 +71,7 @@ public class SquareView extends JPanel implements Observer{
 	        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, 
 	        strategies, 
 	        strategies[0]); 
-	    m_opponent = StrategyBuilder.buildStrategy(selection);
+	    m_opponent = StrategyBuilder.getInstance().buildStrategy(selection);
 	}
 	
 	public void showPlayAgain(){
