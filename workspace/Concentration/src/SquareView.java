@@ -1,20 +1,10 @@
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.sound.sampled.*;
+import javax.swing.*;
 import javax.swing.Timer;
 
 @SuppressWarnings("serial")
@@ -25,6 +15,9 @@ public class SquareView extends JPanel implements Observer{
 	private final Model MODEL = Model.getInstance();
 	
 	private IStrategy m_opponent;
+	
+	private File match = new File("match.wav");
+	private File noMatch = new File("noMatch.wav");
 	
 	public SquareView(){
 		setBackground(Color.GRAY);  
@@ -100,9 +93,9 @@ public class SquareView extends JPanel implements Observer{
 	
 	public class Controller implements ActionListener{
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			for(int i = 0; i < m_cards.size(); i++){
-				if(m_cards.get(i) == e.getSource() && 
+				if(m_cards.get(i) == event.getSource() && 
 						MODEL.isPlayerTurn() && !MODEL.isFound(i)){
 					/*------------------------------------------------
 					 *		m_cards[i] WAS CLICKED
@@ -113,6 +106,20 @@ public class SquareView extends JPanel implements Observer{
 						if(Model.checkMatch(i))
 							MODEL.player1Score();
 						setBackground(Color.BLACK); 
+						
+						// Play Sound
+						try{
+							Clip clip = AudioSystem.getClip();
+							if(Model.checkMatch(i))
+								clip.open(AudioSystem.getAudioInputStream(match));
+							else
+								clip.open(AudioSystem.getAudioInputStream(noMatch));
+							clip.start();
+					    }
+					    catch (Exception e){
+					    	e.printStackTrace(System.out);
+					    }
+						
 						m_timer.start();
 					}
 					break;
