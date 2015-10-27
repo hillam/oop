@@ -112,7 +112,7 @@ public class SquareView extends JPanel implements Observer{
 					if(MODEL.numSelected() == 2){
 						if(Model.checkMatch(i))
 							MODEL.player1Score();
-						black();
+						setBackground(Color.BLACK); 
 						m_timer.start();
 					}
 					break;
@@ -121,11 +121,7 @@ public class SquareView extends JPanel implements Observer{
 			}
 		}
 	}
-	
-	public void black(){
-		setBackground(Color.BLACK); 
-	}
-	
+		
 	@Override
 	public void update(Observable o, Object arg) {
 		for(int i = 0; i < m_cards.size(); i++){
